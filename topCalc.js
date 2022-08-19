@@ -9,6 +9,9 @@ const addButton = document.querySelector('#add');
 const equalsButton = document.querySelector('.equals');
 const dotButton = document.querySelector('.dot');
 
+const operButtons = [];
+operButtons.push(clearButton,percentButton,divideButton,multiplyButton,subtractButton,addButton,equalsButton,dotButton);
+
 //Numeral Button Declarations
 
 const oneButton = document.querySelector('#one');
@@ -22,13 +25,33 @@ const eightButton = document.querySelector('#eight');
 const nineButton = document.querySelector('#nine');
 const zeroButton = document.querySelector('#zero');
 
+const numButtons = [];
+numButtons.push(oneButton,twoButton,threeButton,fourButton,fiveButton,sixButton,sevenButton,eightButton,nineButton,zeroButton);
+console.log(numButtons,operButtons);
+
 //Display Declaration
 
 const numDisplay = document.querySelector('.displayContainer');
 
-console.log(numDisplay);
+//Add Event Listeners to number buttons
 
+for(let i = 0; i < numButtons.length; i++) {
+  numButtons[i].addEventListener('click', () => {
+    numDisplay.textContent += i+1;
+  });
+}
 
+// numButtons.forEach(button => {
+//   button.addEventListener('click', () => {
+//     console.log(button.id);
+//   })
+// })
+
+operButtons.forEach(operator => {
+  operator.addEventListener('click', () => {
+    console.log(operator.id);
+  })
+})
 
 function add(a,b) {
   return a + b;
