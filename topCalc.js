@@ -8,6 +8,7 @@ const subtractButton = document.querySelector('#subtract');
 const addButton = document.querySelector('#add');
 const equalsButton = document.querySelector('.equals');
 const dotButton = document.querySelector('.dot');
+const negButton = document.querySelector('#negative');
 
 const operButtons = [];
 operButtons.push(clearButton,percentButton,divideButton,multiplyButton,subtractButton,addButton,equalsButton,dotButton);
@@ -26,8 +27,12 @@ const nineButton = document.querySelector('#nine');
 const zeroButton = document.querySelector('#zero');
 
 const numButtons = [];
-numButtons.push(oneButton,twoButton,threeButton,fourButton,fiveButton,sixButton,sevenButton,eightButton,nineButton,zeroButton);
+numButtons.push(zeroButton,oneButton,twoButton,threeButton,fourButton,fiveButton,sixButton,sevenButton,eightButton,nineButton);
 console.log(numButtons,operButtons);
+
+//Calculator Operation Variables
+let numInput = "";
+let operateString = "";
 
 //Display Declaration
 
@@ -37,21 +42,59 @@ const numDisplay = document.querySelector('.displayContainer');
 
 for(let i = 0; i < numButtons.length; i++) {
   numButtons[i].addEventListener('click', () => {
-    numDisplay.textContent += i+1;
+    numInput += String(i);
+    numDisplay.textContent = numInput;
   });
 }
 
-// numButtons.forEach(button => {
-//   button.addEventListener('click', () => {
-//     console.log(button.id);
-//   })
-// })
+//Add Event Listeners & Logic to Operator Buttons
 
-operButtons.forEach(operator => {
-  operator.addEventListener('click', () => {
-    console.log(operator.id);
-  })
-})
+addButton.addEventListener('click', () => {
+  operateButton(" + ");
+});
+
+subtractButton.addEventListener('click', () => {
+  operateButton(" - ");
+});
+
+multiplyButton.addEventListener('click', () => {
+  operateButton(" * ");
+});
+
+divideButton.addEventListener('click', () => {
+  operateButton(" / ");
+});
+
+equalsButton.addEventListener('click', () => {
+  if(!operateString) {
+    numDisplay.textContent = numInput;
+    return numInput;
+  }
+  operateString += numInput;
+  numInput = operate(operateString);
+  numDisplay.textContent = numInput;
+  operateString = "";
+});
+
+dotButton.addEventListener('click', () => {
+  numInput += ".";
+  numDisplay.textContent = numInput;
+});
+
+negButton.addEventListener('click', () => {
+  numInput = String(+numInput * -1);
+  numDisplay.textContent = numInput;
+});
+
+//Clear
+
+clearButton.addEventListener('click', () => {
+  numDisplay.textContent = "";
+  numInput = "";
+  operateString = "";
+});
+
+//Calculator Functions
 
 function add(a,b) {
   return a + b;
@@ -87,6 +130,24 @@ function operate(input) {
     case '*':
       return multiply(a,b);
     case '/':
-      return divide(a,b);
+      return divide(a,b).toFixed(4);
+  }
+}
+
+function operateButton(sign) {
+  if(operateString === "") {
+    operateString += numInput;
+    operateString += sign;
+    numDisplay.textContent = operateString;
+    console.log(operateString);
+    numInput = "";
+    console.log(numInput);
+  }
+  else {
+    operateString += numInput;
+    numInput = operate(operateString);
+    numDisplay.textContent = numInput;
+    operateString = `${numInput}${sign}`;
+    numInput = "";
   }
 }
