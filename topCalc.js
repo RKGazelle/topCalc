@@ -9,6 +9,7 @@ const addButton = document.querySelector('#add');
 const equalsButton = document.querySelector('.equals');
 const dotButton = document.querySelector('.dot');
 const negButton = document.querySelector('#negative');
+const backButton = document.querySelector('#back');
 
 const operButtons = [];
 operButtons.push(clearButton,percentButton,divideButton,multiplyButton,subtractButton,addButton,equalsButton,dotButton);
@@ -42,8 +43,10 @@ const numDisplay = document.querySelector('.displayContainer');
 
 for(let i = 0; i < numButtons.length; i++) {
   numButtons[i].addEventListener('click', () => {
-    numInput += String(i);
-    numDisplay.textContent = numInput;
+    if (numInput.length < 12) {
+      numInput += String(i);
+      numDisplay.textContent = numInput;
+    }
   });
 }
 
@@ -77,12 +80,20 @@ equalsButton.addEventListener('click', () => {
 });
 
 dotButton.addEventListener('click', () => {
-  numInput += ".";
-  numDisplay.textContent = numInput;
+  if(numInput.match(/[.]/g) === null) {
+    numInput += ".";
+    numDisplay.textContent = numInput;
+  }
+  else return;
 });
 
 negButton.addEventListener('click', () => {
   numInput = String(+numInput * -1);
+  numDisplay.textContent = numInput;
+});
+
+backButton.addEventListener('click', () => {
+  numInput = numInput.slice(0,numInput.length-1);
   numDisplay.textContent = numInput;
 });
 
@@ -109,8 +120,15 @@ function multiply(a,b) {
 }
 
 function divide(a,b) {
-  if (b !== 0) return +(a / b).toFixed(4);
-  if (b === 0) alert("Stop that, you buffoon!!")
+  if (b !== 0 && (a / b) % 1 === 0) return (a / b);
+  else if (b !== 0 && (a / b) % 1 !== 0) return (a / b).toFixed(4);
+  if (b === 0){
+     alert("Stop that, you buffoon!!");
+     alert("Resetting all input...");
+     numInput = "";
+     operateString = "";
+     numDisplay.textContent = "";
+  }
 }
 
 function operate(input) {
@@ -130,12 +148,13 @@ function operate(input) {
     case '*':
       return multiply(a,b);
     case '/':
-      return divide(a,b).toFixed(4);
+      return divide(a,b);
   }
 }
 
 function operateButton(sign) {
-  if(operateString === "") {
+  //If this is the first operator press (i.e., 7 +)
+  if(operateString === "") {  
     operateString += numInput;
     operateString += sign;
     numDisplay.textContent = operateString;
@@ -143,7 +162,8 @@ function operateButton(sign) {
     numInput = "";
     console.log(numInput);
   }
-  else {
+  //If this is the second operator press (i.e., 7 + 7 +)
+  else { 
     operateString += numInput;
     numInput = operate(operateString);
     numDisplay.textContent = numInput;

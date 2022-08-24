@@ -5,7 +5,7 @@ body {
 }
 
 .calculator {
-  background-color: gray;
+  background-color: #232729;
   width: 400px;
   height: 620px;
   border-radius: 25px;
@@ -38,7 +38,7 @@ body {
 }
 
 .buttonContainer {
-  background-color: gray;
+  background-color: #232729;
   width: 300px;
   height: 400px;
 
@@ -49,12 +49,25 @@ body {
 }
 
 .button {
-  background-color: #232729;
+  background-color: gray;
   color: white;
   font-size: 32px;
   border-radius: 5px;
+  border: solid 1px gray;
+}
+
+.button:active {
+  box-shadow: 0 1px #666;
+  transform: translateY(1px) translateX(1px);
 }
 
 .button,.clear {
   font-size: 20px;
+}
+
+#add,
+#multiply,
+#divide,
+#subtract {
+  background-color: darkorange;
 }
