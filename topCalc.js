@@ -29,7 +29,6 @@ const zeroButton = document.querySelector('#zero');
 
 const numButtons = [];
 numButtons.push(zeroButton,oneButton,twoButton,threeButton,fourButton,fiveButton,sixButton,sevenButton,eightButton,nineButton);
-console.log(numButtons,operButtons);
 
 //Calculator Operation Variables
 let numInput = "";
@@ -100,9 +99,7 @@ backButton.addEventListener('click', () => {
 //Clear
 
 clearButton.addEventListener('click', () => {
-  numDisplay.textContent = "";
-  numInput = "";
-  operateString = "";
+  clear();
 });
 
 //Calculator Functions
@@ -122,20 +119,11 @@ function multiply(a,b) {
 function divide(a,b) {
   if (b !== 0 && (a / b) % 1 === 0) return (a / b);
   else if (b !== 0 && (a / b) % 1 !== 0) return (a / b).toFixed(4);
-  if (b === 0){
-     alert("Stop that, you buffoon!!");
-     alert("Resetting all input...");
-     numInput = "";
-     operateString = "";
-     numDisplay.textContent = "";
-  }
 }
 
 function operate(input) {
 
   let splitPut = input.split(" ");
-  console.log(splitPut);
-
   let operator = splitPut[1];
   let a = +splitPut[0];
   let b = +splitPut[2];
@@ -148,6 +136,11 @@ function operate(input) {
     case '*':
       return multiply(a,b);
     case '/':
+      if (b === 0){
+        alert("Stop that, you buffoon!!");
+        clear();
+        return "ERROR";
+      }
       return divide(a,b);
   }
 }
@@ -158,9 +151,7 @@ function operateButton(sign) {
     operateString += numInput;
     operateString += sign;
     numDisplay.textContent = operateString;
-    console.log(operateString);
     numInput = "";
-    console.log(numInput);
   }
   //If this is the second operator press (i.e., 7 + 7 +)
   else { 
@@ -170,4 +161,10 @@ function operateButton(sign) {
     operateString = `${numInput}${sign}`;
     numInput = "";
   }
+}
+
+function clear() {
+  numDisplay.textContent = "";
+  numInput = "";
+  operateString = "";
 }

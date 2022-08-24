@@ -2,6 +2,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: rgb(119, 235, 229);
+}
+
+h1 {
+  color: #232729;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 60px;
 }
 
 .calculator {
@@ -18,7 +25,7 @@ body {
 }
 
 .displayContainer {
-  background-color: beige;
+  background-color: rgb(250, 250, 234);
   width: 300px;
   height: 100px;
 
@@ -45,7 +52,7 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, 1fr);
-  grid-gap: 8px;
+  grid-gap: 9px;
 }
 
 .button {
@@ -61,13 +68,20 @@ body {
   transform: translateY(1px) translateX(1px);
 }
 
-.button,.clear {
+.button.clear {
   font-size: 20px;
+  background-color: rgb(141, 0, 0);
+  border: solid 1px rgb(141, 0, 0);
+}
+
+.button#back {
+  font-size: 48px;
 }
 
 #add,
 #multiply,
 #divide,
 #subtract {
-  background-color: darkorange;
+  background-color: rgb(230, 126, 0);
+  border: solid 1px rgb(230, 126, 0);
 }
